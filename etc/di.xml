@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- Cli Commands-->
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="pablobae_simpleaitranslator_translate" xsi:type="object">
+                    Pablobae\SimpleAiTranslator\Console\Command\Translate
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Plugins -->
+    <type name="Magento\Catalog\Ui\DataProvider\Product\Form\ProductDataProvider">
+        <plugin name="TranslatableProductDataProvider"
+                type="Pablobae\SimpleAiTranslator\Plugin\TranslatableProductDataProvider"/>
+    </type>
+
+    <!-- Translator Adapters -->
+    <type name="Pablobae\SimpleAiTranslator\Service\Translator">
+        <arguments>
+            <argument name="translatorAdapters" xsi:type="array">
+                <item name="deepl" xsi:type="object">Pablobae\SimpleAiTranslator\Model\TranslatorAdapter\DeepLAdapter</item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>

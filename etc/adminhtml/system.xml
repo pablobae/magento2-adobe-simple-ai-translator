@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="pablobae" translate="label" sortOrder="100">
+            <label>Pablobae</label>
+        </tab>
+        <section id="simple_ai_translator" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Simple AI Translator</label>
+            <tab>pablobae</tab>
+            <resource>Pablobae_SimpleAiTranslator::config</resource>
+
+            <!-- Define a group for General settings -->
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+
+                <!-- Enable/Disable field -->
+                <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Extension</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <!-- Preferred AI Provider field (dependent on Enable/Disable) -->
+                <field id="ai_engine" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>AI Engine</label>
+                    <source_model>Pablobae\SimpleAiTranslator\Model\Config\Source\AiEngine</source_model>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                    <comment>Select your AI preferrer provider</comment>
+                </field>
+            </group>
+            <!-- Deepl -->
+            <group id="deepl" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>DeepL</label>
+                <!-- API Type Field -->
+                <field id="api_domain" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API Domain</label>
+                    <source_model>Pablobae\SimpleAiTranslator\Model\Config\Source\DeeplApiDomain</source_model>
+                    <comment>Select between API Pro (api.deepl.com) or API Free (api-free.deepl.com)</comment>
+                </field>
+
+                <!-- API Key Field -->
+                <field id="api_key" translate="label comment" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <comment>Enter your DeepL API Key here.</comment>
+                </field>
+
+                <!-- Default Source Language -->
+                <field id="default_source_lang" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Source Language</label>
+                    <source_model>Pablobae\SimpleAiTranslator\Model\Config\Source\DeeplSourceLanguages</source_model>
+                    <comment>Optional. If omitted, the API will attempt to detect the language.</comment>
+                </field>
+
+                <!-- Default Target Language -->
+                <field id="default_target_lang" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Target Language</label>
+                    <source_model>Pablobae\SimpleAiTranslator\Model\Config\Source\DeeplTargetLanguages</source_model>
+                    <comment>The language into which the text should be translated by default.</comment>
+                </field>
+
+                <!-- Model Type -->
+                <field id="model_type" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Model Type</label>
+                    <source_model>Pablobae\SimpleAiTranslator\Model\Config\Source\DeeplModelType</source_model>
+                    <comment>Specifies which DeepL model should be used for translation.</comment>
+                </field>
+
+                <!-- Split Sentences -->
+                <field id="split_sentences" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Split Sentences</label>
+                    <source_model>Pablobae\SimpleAiTranslator\Model\Config\Source\DeeplSplitSentences</source_model>
+                    <comment>Sets whether the translation engine should first split the input into sentences.</comment>
+                </field>
+
+                <!-- Preserve Formatting -->
+                <field id="preserve_formatting" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Preserve Formatting</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Sets whether the translation engine should respect the original formatting.</comment>
+                </field>
+
+                <!-- Formality -->
+                <field id="formality" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Formality</label>
+                    <source_model>Pablobae\SimpleAiTranslator\Model\Config\Source\DeeplFormality</source_model>
+                    <comment>Sets whether the translated text should lean towards formal or informal language.</comment>
+                </field>
+
+                <!-- Tag Handling -->
+                <field id="tag_handling" translate="label comment" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Tag Handling</label>
+                    <source_model>Pablobae\SimpleAiTranslator\Model\Config\Source\DeeplTagHandling</source_model>
+                    <comment>Sets which kind of tags should be handled (XML or HTML).</comment>
+                </field>
+
+                <!-- Outline Detection -->
+                <field id="outline_detection" translate="label comment" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Outline Detection</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable automatic detection of XML structure.</comment>
+                    <depends>
+                        <field id="tag_handling">xml</field>
+                    </depends>
+                </field>
+
+                <!-- Non-Splitting Tags -->
+                <field id="non_splitting_tags" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Non-Splitting Tags</label>
+                    <comment>Comma-separated list of XML tags which never split sentences.</comment>
+                    <depends>
+                        <field id="tag_handling">xml</field>
+                    </depends>
+                </field>
+
+                <!-- Splitting Tags -->
+                <field id="splitting_tags" translate="label comment" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Splitting Tags</label>
+                    <comment>Comma-separated list of XML tags which always cause splits.</comment>
+                    <depends>
+                        <field id="tag_handling">xml</field>
+                    </depends>
+                </field>
+
+                <!-- Ignore Tags -->
+                <field id="ignore_tags" translate="label comment" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ignore Tags</label>
+                    <comment>Comma-separated list of XML tags that indicate text not to be translated.</comment>
+                    <depends>
+                        <field id="tag_handling">xml</field>
+                    </depends>
+                </field>
+
+                <!-- Show Billed Characters -->
+                <field id="show_billed_characters" translate="label comment" type="select" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Billed Characters</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>When enabled, the API response will include the number of characters that will be counted for billing.</comment>
+                </field>
+
+                <!-- Context Support -->
+                <field id="enable_context" translate="label comment" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Context Support</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable to allow providing additional context for translations to improve quality.</comment>
+                </field>
+
+                <!-- Request Timeout -->
+                <field id="request_timeout" translate="label comment" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Request Timeout (seconds)</label>
+                    <validate>validate-number validate-greater-than-zero</validate>
+                    <comment>Set the timeout for API requests in seconds.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

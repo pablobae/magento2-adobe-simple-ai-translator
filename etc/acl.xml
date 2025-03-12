@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework/Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Pablobae_SimpleAiTranslator::translate" title="Simple AI Translator" sortOrder="10" />
+                <resource id="Pablobae_SimpleAiTranslator::config" title="Simple Ai Translator Configuration" sortOrder="10"/>
+            </resource>
+        </resources>
+    </acl>
+</config>

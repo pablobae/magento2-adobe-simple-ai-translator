@@ -1,0 +1,49 @@
+<?php
+declare(strict_types=1);
+
+namespace Pablobae\SimpleAiTranslator\Service;
+
+use Magento\Framework\Exception\LocalizedException;
+use Pablobae\SimpleAiTranslator\Api\TranslatorAdapterInterface;
+use RuntimeException;
+
+
+class Translator
+{
+    /**
+     * @var TranslatorAdapterInterface[]
+     */
+    private $translatorAdapters;
+
+    public function __construct(
+        private readonly ConfigProvider $configProvider,
+        array                           $translatorAdapters = []
+    )
+    {
+        $this->translatorAdapters = $translatorAdapters;;
+    }
+
+    /**
+     * Translate given text using the configured Ai Engine
+     * @param string $text
+     * @param string $storeId
+     * @return string
+     * @throws LocalizedException
+     */
+    public function translate(string $text, string $storeId): string
+    {
+
+        if (!$this->configProvider->isModuleEnabled($storeId)) {
+            throw new RuntimeException('Extension is not enabled');
+        }
+
+        $aiEngine = $this->configProvider->getAiEngine();
+
+        if (!isset($this->translatorAdapters[$aiEngine])) {
+            throw new LocalizedException(__("Translation adapter '{$aiEngine}' not found."));
+        }
+
+        return $this->translatorAdapters[$aiEngine]->translate($text, $storeId);
+
+    }
+}
