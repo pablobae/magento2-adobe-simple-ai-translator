@@ -6,7 +6,7 @@ namespace Pablobae\SimpleAiTranslator\Model\TranslatorAdapter;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Pablobae\SimpleAiTranslator\Service\ConfigProvider;
-use Pablobae\SimpleAiTranslator\Service\DeepL\ApiParametersBuilder;
+use Pablobae\SimpleAiTranslator\Service\Deepl\ApiParametersBuilder;
 use Pablobae\SimpleAiTranslator\Api\TranslatorAdapterInterface;
 use GuzzleHttp\Client;
 

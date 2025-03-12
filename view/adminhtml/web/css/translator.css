@@ -1,0 +1,33 @@
+.translate-button {
+    position: relative;
+    transition: all 0.3s;
+}
+
+.translate-button.loading .translate-button-text {
+    visibility: hidden;
+}
+
+.translate-spinner {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-top-color: #1979c3;
+    border-radius: 50%;
+    animation: spinner 0.8s linear infinite;
+}
+
+.translate-button.loading .translate-spinner {
+    display: block;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -48,8 +48,11 @@
 
         <!-- ko if: $data.translatable -->
         <span class="translatable" attr="'data-translatable-index': index">
-                <button data-bind="click: translate">Translate with IA</button>
-            </span>
+            <button class="translate-button" data-bind="click: translate">
+                <span class="translate-button-text">Translate with IA</span>
+                <span class="translate-spinner"></span>
+            </button>
+        </span>
         <!-- /ko -->
     </div>
 </div>
