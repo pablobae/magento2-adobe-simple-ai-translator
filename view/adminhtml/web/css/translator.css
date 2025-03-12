@@ -1,6 +1,7 @@
 .translate-button {
     position: relative;
     transition: all 0.3s;
+    margin-top:10px;
 }
 
 .translate-button.loading .translate-button-text {
