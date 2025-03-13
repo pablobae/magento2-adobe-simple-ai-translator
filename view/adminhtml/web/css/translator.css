@@ -1,11 +1,65 @@
 .translate-button {
     position: relative;
     transition: all 0.3s;
-    margin-top:10px;
+    margin-top: 10px;
+    background-color: #46c2ff;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    padding: 7px 15px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
+    text-transform: none;
+    letter-spacing: 0.025em;
+}
+
+.translate-button:hover {
+    background-color: #f798ff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.translate-button:active {
+    background-color: #f798ff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    transform: translateY(1px);
+}
+
+.translate-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(25, 121, 195, 0.4);
+    background-color: #46c2ff;
+
+}
+
+.translate-button.loading {
+    background-color: #77c4fb;
+    pointer-events: none;
 }
 
 .translate-button.loading .translate-button-text {
     visibility: hidden;
+}
+
+.translate-button::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l4 4 4-4"/><path d="M12 16V4"/><path d="M5 20h14"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.translate-button-text{
+    color:#ffffff;
 }
 
 .translate-spinner {
@@ -17,8 +71,8 @@
     height: 20px;
     margin-top: -10px;
     margin-left: -10px;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    border-top-color: #1979c3;
+    border: 3px solid rgba(255, 255, 255, 0.49);
+    border-top-color: #f798ff;
     border-radius: 50%;
     animation: spinner 0.8s linear infinite;
 }
@@ -32,3 +86,4 @@
         transform: rotate(360deg);
     }
 }
+
