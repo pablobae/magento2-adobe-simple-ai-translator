@@ -29,10 +29,8 @@ class TranslatableProductDataProvider
                     if (!isset($attributeData['arguments']['data']['config']['dataType'])) {
                         continue;
                     }
-                    $formElement = $attributeData['arguments']['data']['config']['formElement'];
-                    $dataType = $attributeData['arguments']['data']['config']['dataType'];
 
-                    if($dataType == 'text' && $formElement=='input') {
+                    if($this->isTranslatable($attributeData)) {
                         $result[$groupCode]['children'][$containerCode]['children'][$attributeCode]['arguments']['data']['config']['translatable']=true;
                     }
 
@@ -41,5 +39,26 @@ class TranslatableProductDataProvider
         }
 
         return $result;
+    }
+
+    /**
+     * Validate if an attribute is translatable or not.
+     * @param array $attributeData
+     * @return bool
+     */
+    private function isTranslatable( array $attributeData): bool
+    {
+        $formElement = $attributeData['arguments']['data']['config']['formElement'];
+        $dataType = $attributeData['arguments']['data']['config']['dataType'];
+
+        if($dataType == 'text' && $formElement=='input'){
+            return true;
+        }
+
+        if($dataType == 'textarea' && $formElement=='textarea'){
+            return true;
+        }
+
+        return false;
     }
 }
