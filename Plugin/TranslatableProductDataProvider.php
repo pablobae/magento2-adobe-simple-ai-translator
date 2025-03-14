@@ -14,15 +14,15 @@ class TranslatableProductDataProvider
      */
     public function afterGetMeta(ProductDataProvider $subject, array $result): array
     {
-        foreach($result as $groupCode => $groupData) {
+        foreach ($result as $groupCode => $groupData) {
             if (!array_key_exists('children', $groupData)) {
                 continue;
             }
-            foreach($groupData['children'] as $containerCode => $containerData) {
+            foreach ($groupData['children'] as $containerCode => $containerData) {
                 if (!array_key_exists('children', $containerData)) {
                     continue;
                 }
-                foreach($containerData['children'] as $attributeCode => $attributeData) {
+                foreach ($containerData['children'] as $attributeCode => $attributeData) {
                     if (!isset($attributeData['arguments']['data']['config']['formElement'])) {
                         continue;
                     }
@@ -30,8 +30,8 @@ class TranslatableProductDataProvider
                         continue;
                     }
 
-                    if($this->isTranslatable($attributeData)) {
-                        $result[$groupCode]['children'][$containerCode]['children'][$attributeCode]['arguments']['data']['config']['translatable']=true;
+                    if ($this->isTranslatable($attributeData)) {
+                        $result[$groupCode]['children'][$containerCode]['children'][$attributeCode]['arguments']['data']['config']['translatable'] = true;
                     }
 
                 }
@@ -46,16 +46,16 @@ class TranslatableProductDataProvider
      * @param array $attributeData
      * @return bool
      */
-    private function isTranslatable( array $attributeData): bool
+    private function isTranslatable(array $attributeData): bool
     {
         $formElement = $attributeData['arguments']['data']['config']['formElement'];
         $dataType = $attributeData['arguments']['data']['config']['dataType'];
 
-        if($dataType == 'text' && $formElement=='input'){
+        if ($dataType == 'text' && $formElement == 'input') {
             return true;
         }
 
-        if($dataType == 'textarea' && $formElement=='textarea'){
+        if ($dataType == 'textarea') {
             return true;
         }
 

@@ -1,16 +1,16 @@
 define(
     [
         'jquery',
-        'ko',
+        'wysiwygAdapter',
         'Pablobae_SimpleAiTranslator/js/translator-service'
     ],
-    function ($, ko, TranslatorService) {
+    function ($, wysiwygAdapter, TranslatorService) {
         'use strict';
 
         return function (OriginalComponent) {
             return OriginalComponent.extend({
                 /**
-                 * Retrieve store id from the page url
+                 * Retrieve store id from the page URL
                  * @returns {string|null}
                  */
                 getStoreIdFromPath: function () {
@@ -18,11 +18,11 @@ define(
                     const storePattern = /\/store\/(\d+)/;
                     const match = pathname.match(storePattern);
 
-                    return match && match[1] ? match[1] : '0'; //default store
+                    return match && match[1] ? match[1] : '0'; // Default store
                 },
 
                 /**
-                 * Call the translate API using the shared utility
+                 * Call the translate API and update the field value
                  * @param {Object} data - The data object
                  * @param {Event} event - The click event
                  */
@@ -32,38 +32,31 @@ define(
                     var storeId = this.getStoreIdFromPath();
                     var button = event.currentTarget;
 
+                    // Check if the field is a WYSIWYG editor
+                    if (wysiwygAdapter.get(this.uid)) {
+                        text = wysiwygAdapter.get(this.uid).getContent({ format: 'text' });
+                    }
+
                     // Don't translate if text is empty
                     if (!text || text.trim() === '') {
+                        alert('No content to translate.');
                         return;
                     }
 
-                    // If not in default store view, uncheck the "Use Default Value" checkbox
-                    if (storeId !== '0') {
-                        var useDefaultCheckbox = $('input[name="use_default[' + this.index + ']"]');
-                        if (useDefaultCheckbox.length && useDefaultCheckbox.is(':checked')) {
-                            // Find the associated Knockout component
-                            var koContext = ko.contextFor(useDefaultCheckbox[0]);
-                            if (koContext && koContext.$data && koContext.$data.source) {
-                                // Update the Knockout observable directly
-                                var field = this.index;
-                                if (koContext.$data.source.set) {
-                                    koContext.$data.source.set('data.use_default.' + field, false);
-                                }
-                                // Also update the DOM element for good measure
-                                useDefaultCheckbox.prop('checked', false).trigger('change');
-
-                                // Ensure the input is enabled
-                                this.disabled(false);
-                            } else {
-                                // Fallback to just changing the checkbox
-                                useDefaultCheckbox.prop('checked', false).trigger('change');
-                            }
-                        }
-                    }
+                    // Add loading state to the button
+                    $(button).addClass('loading');
 
                     TranslatorService.translate(text, storeId, function (status, response) {
+                        // Remove loading state from the button
+                        $(button).removeClass('loading');
+
                         if (status === 'success') {
+                            // Update WYSIWYG editor or regular field content
+                            if (wysiwygAdapter.get(self.wysiwygId)) {
+                                var wysiwyg = wysiwygAdapter.get(self.wysiwygId).setContent(response);
+                            }
                             self.value(response);
+
                         } else {
                             alert('ERROR: ' + response);
                         }
@@ -71,4 +64,5 @@ define(
                 }
             });
         };
-    });
+    }
+);
