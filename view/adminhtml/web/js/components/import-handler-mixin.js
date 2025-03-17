@@ -1,9 +1,10 @@
 define(
     [
         'jquery',
-        'Pablobae_SimpleAiTranslator/js/translator-service'
+        'Pablobae_SimpleAiTranslator/js/translator-service',
+        'mage/translate'
     ],
-    function ($, TranslatorService) {
+    function ($, TranslatorService, $t) {
         'use strict';
 
         return function (OriginalComponent) {
@@ -32,6 +33,7 @@ define(
 
                     // Don't translate if text is empty
                     if (!text || text.trim() === '') {
+                        alert($t('No content to translate.'));
                         return;
                     }
 
