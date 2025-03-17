@@ -31,13 +31,15 @@ define(
                     var storeId = this.getStoreIdFromPath();
                     var button = event.currentTarget;
 
-                    // Don't translate if text is empty
                     if (!text || text.trim() === '') {
                         alert($t('No content to translate.'));
                         return;
                     }
 
+                    $(button).addClass('loading');
+
                     TranslatorService.translate(text, storeId, function (status, response) {
+                        $(button).removeClass('loading');
                         if (status === 'success') {
                             self.value(response);
                         } else {
