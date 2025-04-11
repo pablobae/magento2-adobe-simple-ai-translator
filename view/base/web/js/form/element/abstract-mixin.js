@@ -9,20 +9,7 @@ define(
         'use strict';
 
         return function (OriginalComponent) {
-            return OriginalComponent.extend({
-                /**
-                 * Check if the current page is a CMS Page or Block edit page
-                 * @returns {boolean}
-                 */
-                isCmsOrBlockEditPage: function () {
-                    const pathname = window.location.pathname;
-
-                    // Define patterns for "Edit CMS Page" and "Edit Block Page"
-                    const editCmsPagePattern = /\/cms\/page\/edit/; // Example: /admin/cms/page/edit/id/1/
-                    const editBlockPagePattern = /\/cms\/block\/edit/; // Example: /admin/cms/block/edit/id/1/
-
-                    return editCmsPagePattern.test(pathname) || editBlockPagePattern.test(pathname);
-                },
+            return OriginalComponent.extend({      
                 /**
                  * Retrieve store id from the page URL
                  * @returns {string|null}
@@ -41,28 +28,14 @@ define(
                  */
                 translate: function (data, event) {
                     var self = this;
-                    var text = '';
-                    var storeId = null;
+                    var text = this.value();
+                    var storeId = this.getStoreIdFromPath();
                     var button = event.currentTarget;
-
-                    if (this.isCmsOrBlockEditPage()) {
-                        var storeIdSelect = document.querySelector('[name="store_id"]');
-
-                        if (!storeIdSelect || storeIdSelect.value === '') {
-                            alert($t('Please, select at least one store view from the Page in Websites.'));
-                            return;
-                        }
-                        storeId = storeIdSelect.value;
-                    } else {
-                        storeId = this.getStoreIdFromPath();
-                    }
 
                     // Check if the field is a WYSIWYG editor
                     if (wysiwygAdapter.get(this.uid)) {
                         text = wysiwygAdapter.get(this.uid).getContent({format: 'text'});
-                    } else {
-                        text = this.value();
-                    }
+                    } 
 
                     // Don't translate if text is empty
                     if (!text || text.trim() === '') {
