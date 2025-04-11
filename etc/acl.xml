@@ -3,8 +3,7 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="Pablobae_SimpleAiTranslator::translate" title="Simple AI Translator" sortOrder="10" />
-                <resource id="Pablobae_SimpleAiTranslator::config" title="Simple Ai Translator Configuration" sortOrder="10"/>
+                <resource id="Pablobae_SimpleAiTranslator::configuration" title="Simple Ai Translator Configuration" sortOrder="10"/>
             </resource>
         </resources>
     </acl>

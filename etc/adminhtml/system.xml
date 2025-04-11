@@ -7,7 +7,7 @@
         <section id="simple_ai_translator" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Simple AI Translator</label>
             <tab>pablobae</tab>
-            <resource>Pablobae_SimpleAiTranslator::config</resource>
+            <resource>Pablobae_SimpleAiTranslator::configuration</resource>
 
             <!-- Define a group for General settings -->
             <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
