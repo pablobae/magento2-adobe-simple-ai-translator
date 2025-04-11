@@ -13,26 +13,26 @@ class ConfigProvider
      */
     const STORE_LOCALE = 'general/locale/code';
 
-    const XML_PATH_ENABLE = 'simple_ai_translator/general/enable';
-    const XML_PATH_AI_ENGINE = 'simple_ai_translator/general/ai_engine';
+    const XML_PATH_ENABLE = 'pablobae_simpleaitranslator/general/enable';
+    const XML_PATH_AI_ENGINE = 'pablobae_simpleaitranslator/general/ai_engine';
 
     // DeepL API Configuration Paths
-    const XML_PATH_DEEPL_API_DOMAIN = 'simple_ai_translator/deepl/api_domain';
-    const XML_PATH_DEEPL_API_KEY = 'simple_ai_translator/deepl/api_key';
-    const XML_PATH_DEEPL_DEFAULT_SOURCE_LANG = 'simple_ai_translator/deepl/default_source_lang';
-    const XML_PATH_DEEPL_DEFAULT_TARGET_LANG = 'simple_ai_translator/deepl/default_target_lang';
-    const XML_PATH_DEEPL_MODEL_TYPE = 'simple_ai_translator/deepl/model_type';
-    const XML_PATH_DEEPL_SPLIT_SENTENCES = 'simple_ai_translator/deepl/split_sentences';
-    const XML_PATH_DEEPL_PRESERVE_FORMATTING = 'simple_ai_translator/deepl/preserve_formatting';
-    const XML_PATH_DEEPL_FORMALITY = 'simple_ai_translator/deepl/formality';
-    const XML_PATH_DEEPL_TAG_HANDLING = 'simple_ai_translator/deepl/tag_handling';
-    const XML_PATH_DEEPL_OUTLINE_DETECTION = 'simple_ai_translator/deepl/outline_detection';
-    const XML_PATH_DEEPL_NON_SPLITTING_TAGS = 'simple_ai_translator/deepl/non_splitting_tags';
-    const XML_PATH_DEEPL_SPLITTING_TAGS = 'simple_ai_translator/deepl/splitting_tags';
-    const XML_PATH_DEEPL_IGNORE_TAGS = 'simple_ai_translator/deepl/ignore_tags';
-    const XML_PATH_DEEPL_SHOW_BILLED_CHARACTERS = 'simple_ai_translator/deepl/show_billed_characters';
-    const XML_PATH_DEEPL_ENABLE_CONTEXT = 'simple_ai_translator/deepl/enable_context';
-    const XML_PATH_DEEPL_REQUEST_TIMEOUT = 'simple_ai_translator/deepl/request_timeout';
+    const XML_PATH_DEEPL_API_DOMAIN = 'pablobae_simpleaitranslator/deepl/api_domain';
+    const XML_PATH_DEEPL_API_KEY = 'pablobae_simpleaitranslator/deepl/api_key';
+    const XML_PATH_DEEPL_DEFAULT_SOURCE_LANG = 'pablobae_simpleaitranslator/deepl/default_source_lang';
+    const XML_PATH_DEEPL_DEFAULT_TARGET_LANG = 'pablobae_simpleaitranslator/deepl/default_target_lang';
+    const XML_PATH_DEEPL_MODEL_TYPE = 'pablobae_simpleaitranslator/deepl/model_type';
+    const XML_PATH_DEEPL_SPLIT_SENTENCES = 'pablobae_simpleaitranslator/deepl/split_sentences';
+    const XML_PATH_DEEPL_PRESERVE_FORMATTING = 'pablobae_simpleaitranslator/deepl/preserve_formatting';
+    const XML_PATH_DEEPL_FORMALITY = 'pablobae_simpleaitranslator/deepl/formality';
+    const XML_PATH_DEEPL_TAG_HANDLING = 'pablobae_simpleaitranslator/deepl/tag_handling';
+    const XML_PATH_DEEPL_OUTLINE_DETECTION = 'pablobae_simpleaitranslator/deepl/outline_detection';
+    const XML_PATH_DEEPL_NON_SPLITTING_TAGS = 'pablobae_simpleaitranslator/deepl/non_splitting_tags';
+    const XML_PATH_DEEPL_SPLITTING_TAGS = 'pablobae_simpleaitranslator/deepl/splitting_tags';
+    const XML_PATH_DEEPL_IGNORE_TAGS = 'pablobae_simpleaitranslator/deepl/ignore_tags';
+    const XML_PATH_DEEPL_SHOW_BILLED_CHARACTERS = 'pablobae_simpleaitranslator/deepl/show_billed_characters';
+    const XML_PATH_DEEPL_ENABLE_CONTEXT = 'pablobae_simpleaitranslator/deepl/enable_context';
+    const XML_PATH_DEEPL_REQUEST_TIMEOUT = 'pablobae_simpleaitranslator/deepl/request_timeout';
 
     /**
      * @var ScopeConfigInterface
