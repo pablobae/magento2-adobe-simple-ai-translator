@@ -23,7 +23,7 @@
     <type name="Pablobae\SimpleAiTranslator\Service\Translator">
         <arguments>
             <argument name="translatorAdapters" xsi:type="array">
-                <item name="deepl" xsi:type="object">Pablobae\SimpleAiTranslator\Model\TranslatorAdapter\DeepLAdapter</item>
+                <item name="deepl" xsi:type="object">Pablobae\SimpleAiTranslator\Model\TranslatorAdapter\DeeplAdapter</item>
             </argument>
         </arguments>
     </type>
