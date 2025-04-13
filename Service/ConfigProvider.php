@@ -108,7 +108,13 @@ class ConfigProvider
      */
     public function getDeeplApiKey($storeId = null): ?string
     {
-        return $this->scopeConfig->getValue(self::XML_PATH_DEEPL_API_KEY, ScopeInterface::SCOPE_STORE, $storeId);
+        $encryptedKey = $this->scopeConfig->getValue(
+            self::XML_PATH_DEEPL_API_KEY,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        return $encryptedKey ? $this->encryptor->decrypt($encryptedKey) : null;
     }
 
     /**
