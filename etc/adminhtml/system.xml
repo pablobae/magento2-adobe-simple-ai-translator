@@ -153,6 +153,52 @@
                     <comment>Set the timeout for API requests in seconds.</comment>
                 </field>
             </group>
+            <!-- ChatGPT -->
+            <group id="chatgpt" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>ChatGPT</label>
+                
+                <!-- API Key Field -->
+                <field id="api_key" translate="label comment" type="obscure" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <comment>Enter your OpenAI API Key here.</comment>
+                </field>
+
+                <!-- Model Selection -->
+                <field id="model" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Model</label>
+                    <source_model>Pablobae\SimpleAiTranslator\Model\Config\Source\ChatGptModel</source_model>
+                    <comment>Select the ChatGPT model to use for translations.</comment>
+                </field>
+
+                <!-- Temperature -->
+                <field id="temperature" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Temperature</label>
+                    <validate>validate-number validate-zero-or-greater validate-number-range number-range-0-2</validate>
+                    <comment>Controls randomness in the model's output (0.0 to 2.0). Lower values make the output more focused and deterministic.</comment>
+                </field>
+
+                <!-- Default Source Language -->
+                <field id="default_source_lang" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Source Language</label>
+                    <source_model>Pablobae\SimpleAiTranslator\Model\Config\Source\ChatGptSourceLanguages</source_model>
+                    <comment>Optional. If omitted, the API will attempt to detect the language.</comment>
+                </field>
+
+                <!-- Default Target Language -->
+                <field id="default_target_lang" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Target Language</label>
+                    <source_model>Pablobae\SimpleAiTranslator\Model\Config\Source\ChatGptTargetLanguages</source_model>
+                    <comment>The language into which the text should be translated by default.</comment>
+                </field>
+
+                <!-- Request Timeout -->
+                <field id="request_timeout" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Request Timeout (seconds)</label>
+                    <validate>validate-number validate-greater-than-zero</validate>
+                    <comment>Set the timeout for API requests in seconds.</comment>
+                </field>
+            </group>
         </section>
     </system>
 </config>

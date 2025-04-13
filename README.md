@@ -1,22 +1,25 @@
-# Pablobae SimpleAiTranslator for Magento 2
+# Simple AI Translator for Magento 2
 
-SimpleAiTranslator is a Magento 2 extension that provides automated translation capabilities using AI-powered translation services. Currently, it supports DeepL's translation API, with the possibility to extend to other AI translation services.
+SimpleAiTranslator is a Magento 2 extension that provides automated translation capabilities using AI-powered translation services. Currently supports DeepL and ChatGPT translation APIs.
 
 ## Features
 
-- Integration with DeepL API for high-quality AI translations
-- Support for both DeepL API Free and Pro versions
-- Automatic language detection from store locale
-- Configurable target language settings
+- Multiple AI Translation Engines:
+  - DeepL API (Free and Pro versions)
+  - ChatGPT (OpenAI)
 - Store-specific configurations
+- Automatic language detection
+- Configurable translation parameters:
+  - DeepL: formality, sentence splitting, tag handling
+  - ChatGPT: model selection, temperature control
+- Error handling and logging
 - Command-line interface for translations
-- Integration with Magento's product data provider
 
 ## Requirements
 
 - Magento 2.4.x
-- PHP 7.4 or higher
-- DeepL API key (Free or Pro)
+- PHP 8.1 or higher
+- DeepL API key (Free or Pro) and/or ChatGPT API key
 
 ## Installation
 
@@ -46,14 +49,41 @@ bin/magento cache:clean
 
 ## Configuration
 
-1. Go to **Stores > Configuration > Pablobae Extensions > Simple AI Translator**
-2. Configure the following settings:
-   - Enable/Disable the module
-   - Select AI Engine (DeepL)
-   - Enter your DeepL API Key
-   - Choose DeepL API domain (api.deepl.com for Pro, api-free.deepl.com for Free)
-   - Set default target language (optional)
-   - Configure request timeout
+Navigate to **Stores > Configuration > Pablobae Extensions > Simple AI Translator**
+
+### Getting API Keys
+
+#### DeepL API Key
+1. Visit [DeepL API Account](https://www.deepl.com/pro-api)
+2. Sign up for a DeepL API account (Free or Pro)
+3. Access your API key from the account dashboard
+4. Use api-free.deepl.com for Free API or api.deepl.com for Pro API
+
+#### ChatGPT API Key
+1. Visit [OpenAI Platform](https://platform.openai.com/)
+2. Create or log into your OpenAI account
+3. Navigate to API Keys section
+4. Create a new secret key
+5. Store the key securely as it won't be shown again
+
+### Configuration Options
+
+#### General
+- Enable/Disable module
+- Select AI Engine (DeepL or ChatGPT)
+
+#### DeepL Settings
+- API Key
+- API Domain (Free/Pro)
+- Default languages
+- Advanced translation options
+
+#### ChatGPT Settings
+- API Key
+- Model selection
+- Temperature
+- Default languages
+- Request timeout
 
 ## Usage
 
@@ -76,13 +106,12 @@ bin/magento pablobae:simpleaitranslator:translate [text] [options]
 use Pablobae\SimpleAiTranslator\Service\Translator;
 
 class YourClass {
-    private $translator;
+    public function __construct(
+        private readonly Translator $translator
+    ) {}
 
-    public function __construct(Translator $translator) {
-        $this->translator = $translator;
-    }
-
-    public function translate($text, $storeId) {
+    public function translate(string $text, ?string $storeId = null): string
+    {
         return $this->translator->translate($text, $storeId);
     }
 }
@@ -90,7 +119,7 @@ class YourClass {
 
 ## Supported Languages
 
-The extension supports all languages available in the DeepL API, including:
+### DeepL API Languages
 - English (US & UK)
 - German
 - French
@@ -104,13 +133,26 @@ The extension supports all languages available in the DeepL API, including:
 - Chinese
 And more...
 
+### ChatGPT Languages
+ChatGPT supports a broader range of languages including:
+- All major European languages
+- Asian languages (Chinese, Japanese, Korean)
+- Arabic
+- Hindi
+- African languages
+- Indigenous languages
+And many more, as ChatGPT can understand and generate content in most world languages.
+
+Note: While ChatGPT supports more languages, DeepL typically provides more accurate translations for its supported language pairs.
+
 ## Error Handling
 
 The extension includes comprehensive error handling for:
-- Missing API keys
-- Invalid API responses
+- Invalid/expired API keys
+- Rate limits and quota exceeded
 - Network timeouts
 - Invalid language codes
+- Malformed responses
 
 ## Contributing
 
@@ -118,9 +160,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Support
 
-If you encounter any issues or have questions, please:
-1. Check the [issues page](https://github.com/pablobae/magento2-simple-ai-translator/issues)
-2. Create a new issue if your problem isn't already listed
+For issues and feature requests, please [create an issue](https://github.com/pablobae/magento2-simple-ai-translator/issues)
 
 ## License
 
@@ -128,4 +168,4 @@ If you encounter any issues or have questions, please:
 
 ## Credits
 
-Developed by Pablo Baenas
+Developed by Pablo César Baenas Castelló

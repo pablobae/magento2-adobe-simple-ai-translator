@@ -19,11 +19,12 @@
                 type="Pablobae\SimpleAiTranslator\Plugin\TranslatableProductDataProvider"/>
     </type>
 
-    <!-- Translator Adapters -->
+    <!-- Translator Service Configuration -->
     <type name="Pablobae\SimpleAiTranslator\Service\Translator">
         <arguments>
             <argument name="translatorAdapters" xsi:type="array">
                 <item name="deepl" xsi:type="object">Pablobae\SimpleAiTranslator\Model\TranslatorAdapter\DeeplAdapter</item>
+                <item name="chatgpt" xsi:type="object">Pablobae\SimpleAiTranslator\Model\TranslatorAdapter\ChatGptAdapter</item>
             </argument>
         </arguments>
     </type>

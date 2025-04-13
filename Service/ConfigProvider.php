@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Pablobae\SimpleAiTranslator\Service;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Store\Model\ScopeInterface;
 
 class ConfigProvider
@@ -34,19 +35,26 @@ class ConfigProvider
     const XML_PATH_DEEPL_ENABLE_CONTEXT = 'pablobae_simpleaitranslator/deepl/enable_context';
     const XML_PATH_DEEPL_REQUEST_TIMEOUT = 'pablobae_simpleaitranslator/deepl/request_timeout';
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    // ChatGPT API Configuration Paths
+    const XML_PATH_CHATGPT_API_KEY = 'pablobae_simpleaitranslator/chatgpt/api_key';
+    const XML_PATH_CHATGPT_MODEL = 'pablobae_simpleaitranslator/chatgpt/model';
+    const XML_PATH_CHATGPT_TEMPERATURE = 'pablobae_simpleaitranslator/chatgpt/temperature';
+    const XML_PATH_CHATGPT_DEFAULT_SOURCE_LANG = 'pablobae_simpleaitranslator/chatgpt/default_source_lang';
+    const XML_PATH_CHATGPT_DEFAULT_TARGET_LANG = 'pablobae_simpleaitranslator/chatgpt/default_target_lang';
+    const XML_PATH_CHATGPT_REQUEST_TIMEOUT = 'pablobae_simpleaitranslator/chatgpt/request_timeout';
+
+  
 
     /**
      * Constructor
      *
      * @param ScopeConfigInterface $scopeConfig
+     * @param EncryptorInterface $encryptor
      */
-    public function __construct(ScopeConfigInterface $scopeConfig)
-    {
-        $this->scopeConfig = $scopeConfig;
+    public function __construct(
+        private readonly ScopeConfigInterface $scopeConfig,
+        private readonly EncryptorInterface $encryptor
+    ) {
     }
 
     /**
@@ -256,5 +264,97 @@ class ConfigProvider
     {
         $timeout = (int)$this->scopeConfig->getValue(self::XML_PATH_DEEPL_REQUEST_TIMEOUT, ScopeInterface::SCOPE_STORE, $storeId);
         return $timeout > 0 ? $timeout : 30; // Default to 30 seconds if not set or invalid
+    }
+
+    /**
+     * Get ChatGPT API Key
+     *
+     * @param string|null $storeId
+     * @return string
+     */
+    public function getChatGptApiKey(?string $storeId = null): string
+    {
+        $encryptedKey = $this->scopeConfig->getValue(
+            self::XML_PATH_CHATGPT_API_KEY,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        return $encryptedKey ? $this->encryptor->decrypt($encryptedKey) : '';
+    }
+
+    /**
+     * Get ChatGPT Model
+     *
+     * @param string|null $storeId
+     * @return string
+     */
+    public function getChatGptModel(?string $storeId = null): string
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_CHATGPT_MODEL,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Get ChatGPT Temperature
+     *
+     * @param string|null $storeId
+     * @return float
+     */
+    public function getChatGptTemperature(?string $storeId = null): float
+    {
+        return (float)$this->scopeConfig->getValue(
+            self::XML_PATH_CHATGPT_TEMPERATURE,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        ) ?: 0.7;
+    }
+
+    /**
+     * Get ChatGPT Default Source Language
+     *
+     * @param string|null $storeId
+     * @return string|null
+     */
+    public function getChatGptDefaultSourceLang(?string $storeId = null): ?string
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_CHATGPT_DEFAULT_SOURCE_LANG,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Get ChatGPT Default Target Language
+     *
+     * @param string|null $storeId
+     * @return string
+     */
+    public function getChatGptDefaultTargetLang(?string $storeId = null): string
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_CHATGPT_DEFAULT_TARGET_LANG,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Get ChatGPT Request Timeout
+     *
+     * @param string|null $storeId
+     * @return int
+     */
+    public function getChatGptRequestTimeout(?string $storeId = null): int
+    {
+        return (int)$this->scopeConfig->getValue(
+            self::XML_PATH_CHATGPT_REQUEST_TIMEOUT,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        ) ?: 30;
     }
 }

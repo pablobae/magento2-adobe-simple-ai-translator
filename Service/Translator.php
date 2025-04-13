@@ -7,20 +7,18 @@ use Magento\Framework\Exception\LocalizedException;
 use Pablobae\SimpleAiTranslator\Api\TranslatorAdapterInterface;
 use RuntimeException;
 
-
 class Translator
 {
     /**
      * @var TranslatorAdapterInterface[]
      */
-    private $translatorAdapters;
+    private array $translatorAdapters;
 
     public function __construct(
         private readonly ConfigProvider $configProvider,
-        array                           $translatorAdapters = []
-    )
-    {
-        $this->translatorAdapters = $translatorAdapters;;
+        array $translatorAdapters = []
+    ) {
+        $this->translatorAdapters = $translatorAdapters;
     }
 
     /**
@@ -32,7 +30,6 @@ class Translator
      */
     public function translate(string $text, string $storeId): string
     {
-
         if (!$this->configProvider->isModuleEnabled($storeId)) {
             throw new RuntimeException('Extension is not enabled');
         }
@@ -40,10 +37,10 @@ class Translator
         $aiEngine = $this->configProvider->getAiEngine();
 
         if (!isset($this->translatorAdapters[$aiEngine])) {
-            throw new LocalizedException(__("Translation adapter '{$aiEngine}' not found."));
+            throw new LocalizedException(__("Translation adapter '%1' not found.", $aiEngine));
         }
 
         return $this->translatorAdapters[$aiEngine]->translate($text, $storeId);
-
     }
 }
+
