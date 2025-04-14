@@ -27,14 +27,14 @@ class ChatGptAdapter implements TranslatorAdapterInterface
     public function translate(string $text, string $storeId): string
     {
         try {
-            $sourceLang = $this->configProvider->getChatGptDefaultSourceLang();
+            $sourceLang = $this->configProvider->getChatGptDefaultSourceLang($storeId);
             $targetLang = $this->configProvider->getChatGptDefaultTargetLang($storeId);
 
             if (empty($targetLang)) {
                 throw new LocalizedException(__('Target language is required for translation.'));
             }
 
-            $prompt = $this->promptBuilder->buildTranslationPrompt($text, $sourceLang, $targetLang);
+            $prompt = $this->promptBuilder->buildTranslationPrompt($text, $targetLang, $sourceLang);
             $response = $this->apiClient->sendRequest($prompt);
 
             return $this->apiClient->extractTranslation($response);
@@ -47,12 +47,12 @@ class ChatGptAdapter implements TranslatorAdapterInterface
 
     /**
      * @inheritDoc
+     * @throws LocalizedException
      */
     public function translateToLanguage(string $text, string $targetLang): string
     {
         try {
-            $sourceLang = $this->configProvider->getChatGptDefaultSourceLang();
-            $prompt = $this->promptBuilder->buildTranslationPrompt($text, $sourceLang, $targetLang);
+            $prompt = $this->promptBuilder->buildTranslationPrompt($text, $targetLang);
             $response = $this->apiClient->sendRequest($prompt);
 
             return $this->apiClient->extractTranslation($response);

@@ -9,14 +9,14 @@ class PromptBuilder
      * Build translation prompt messages
      *
      * @param string $text
-     * @param string|null $sourceLang
      * @param string $targetLang
-     * @return array
+     * @param string|null $sourceLang
+ * @return array
      */
-    public function buildTranslationPrompt(string $text, ?string $sourceLang, string $targetLang): array
+    public function buildTranslationPrompt(string $text, string $targetLang, string $sourceLang = null): array
     {
         $systemPrompt = 'You are a professional translator. Translate the text exactly as provided, maintaining any HTML or XML tags if present. Only return the translated text without any explanations or additional content.';
-        
+
         $userPrompt = "Translate the following text to $targetLang";
         if ($sourceLang) {
             $userPrompt .= " from $sourceLang";
@@ -34,4 +34,4 @@ class PromptBuilder
             ]
         ];
     }
-} 
+}
