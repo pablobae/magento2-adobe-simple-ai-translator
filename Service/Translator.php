@@ -42,5 +42,28 @@ class Translator
 
         return $this->translatorAdapters[$aiEngine]->translate($text, $storeId);
     }
+
+    /**
+     * Translate text with specific target language
+     *
+     * @param string $text
+     * @param string $targetLang
+     * @return string
+     * @throws LocalizedException
+     */
+    public function translateToLanguage(string $text, string $targetLang): string
+    {
+        if (!$this->configProvider->isModuleEnabled()) {
+            throw new RuntimeException('Extension is not enabled');
+        }
+
+        $aiEngine = $this->configProvider->getAiEngine();
+
+        if (!isset($this->translatorAdapters[$aiEngine])) {
+            throw new LocalizedException(__("Translation adapter '%1' not found.", $aiEngine));
+        }
+
+        return $this->translatorAdapters[$aiEngine]->translateToLanguage($text, $targetLang);
+    }
 }
 

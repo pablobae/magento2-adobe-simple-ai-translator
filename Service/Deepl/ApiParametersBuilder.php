@@ -23,12 +23,12 @@ class ApiParametersBuilder
     }
 
     /**
-     * Build DeepL API parameters based on configuration
+     * Build DeepL API parameters based on store Id and configuration
      *
      * @param string|null $storeId
      * @return array
      */
-    public function buildParameters(?string $storeId = null): array
+    public function buildParametersByStoreId(?string $storeId = null): array
     {
         $params = [];
 
@@ -86,6 +86,8 @@ class ApiParametersBuilder
         return $params;
     }
 
+
+
     /**
      * Add XML-specific parameters
      *
@@ -127,17 +129,57 @@ class ApiParametersBuilder
      * @param null|int|string $storeId
      * @return array
      */
-    public function buildParametersWithLanguages(string $sourceLanguage, string $targetLanguage, $storeId = null): array
+    public function buildParametersByTargetLanguage(string $targetLanguage): array
     {
-        $params = $this->buildParameters($storeId);
+        $params = [];
+        // Add target language (required)
+        $params['target_lang'] = $targetLanguage;
 
-        // Override source language if provided
+        // Add source language if specified
+        $sourceLanguage = $this->configProvider->getDeeplDefaultSourceLang();
         if (!empty($sourceLanguage)) {
             $params['source_lang'] = $sourceLanguage;
         }
 
-        // Override target language
-        $params['target_lang'] = $targetLanguage;
+
+        // Add model type if specified
+        $modelType = $this->configProvider->getDeeplModelType();
+        if (!empty($modelType)) {
+            $params['model'] = $modelType;
+        }
+
+        // Add split sentences setting
+        $splitSentences = $this->configProvider->getDeeplSplitSentences();
+        if (!empty($splitSentences)) {
+            $params['split_sentences'] = $splitSentences;
+        }
+
+        // Add preserve formatting if enabled
+        if ($this->configProvider->isDeeplPreserveFormattingEnabled()) {
+            $params['preserve_formatting'] = 1;
+        }
+
+        // Add formality if specified
+        $formality = $this->configProvider->getDeeplFormality();
+        if (!empty($formality) && $formality !== 'default') {
+            $params['formality'] = $formality;
+        }
+
+        // Add tag handling if specified
+        $tagHandling = $this->configProvider->getDeeplTagHandling();
+        if (!empty($tagHandling)) {
+            $params['tag_handling'] = $tagHandling;
+
+            // Add XML-specific parameters if tag handling is XML
+            if ($tagHandling === 'xml') {
+                $this->addXmlParameters($params);
+            }
+        }
+
+        // Add show billed characters if enabled
+        if ($this->configProvider->isDeeplShowBilledCharactersEnabled()) {
+            $params['show_billed_characters'] = 1;
+        }
 
         return $params;
     }

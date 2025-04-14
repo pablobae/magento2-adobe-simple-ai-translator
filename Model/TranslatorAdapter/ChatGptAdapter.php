@@ -43,4 +43,22 @@ class ChatGptAdapter implements TranslatorAdapterInterface
             throw new LocalizedException(__('Failed to get translation from ChatGPT API.'), $e);
         }
     }
-} 
+
+
+    /**
+     * @inheritDoc
+     */
+    public function translateToLanguage(string $text, string $targetLang): string
+    {
+        try {
+            $sourceLang = $this->configProvider->getChatGptDefaultSourceLang();
+            $prompt = $this->promptBuilder->buildTranslationPrompt($text, $sourceLang, $targetLang);
+            $response = $this->apiClient->sendRequest($prompt);
+
+            return $this->apiClient->extractTranslation($response);
+        } catch (GuzzleException|LocalizedException $e) {
+            $this->logger->error('ChatGPT translation error: ' . $e->getMessage());
+            throw new LocalizedException(__('Failed to get translation from ChatGPT API.'), $e);
+        }
+    }
+}

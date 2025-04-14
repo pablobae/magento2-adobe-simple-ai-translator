@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Pablobae\SimpleAiTranslator\Console\Command;
 
+use Exception;
 use Pablobae\SimpleAiTranslator\Service\Translator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,7 +29,7 @@ class Translate extends Command
     protected function configure()
     {
         $this->setName('pablobae:translate')
-            ->setDescription('Translates text into the specified target language using DeepL API.')
+            ->setDescription('Translates text into the specified target language using several AI engines API.')
             ->addOption(
                 self::OPTION_TEXT,
                 null,
@@ -63,15 +64,14 @@ class Translate extends Command
         }
 
         try {
-            // Call DeepL API (replace with actual implementation)
-            $translatedText = $this->translator->translate($text, $targetLanguage);
+            $translatedText = $this->translator->translateToLanguage($text, $targetLanguage);
 
             $output->writeln('<info>Original Text:</info> ' . $text);
             $output->writeln('<info>Translated Text:</info> ' . $translatedText);
 
             return Command::SUCCESS;
         } catch
-        (\Exception $e) {
+        (Exception $e) {
             $output->writeln('<error>Error: ' . $e->getMessage() . '</error>');
             return Command::FAILURE;
         }

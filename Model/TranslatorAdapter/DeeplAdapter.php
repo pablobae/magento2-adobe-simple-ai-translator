@@ -9,6 +9,7 @@ use Pablobae\SimpleAiTranslator\Service\ConfigProvider;
 use Pablobae\SimpleAiTranslator\Service\Deepl\ApiParametersBuilder;
 use Pablobae\SimpleAiTranslator\Api\TranslatorAdapterInterface;
 use GuzzleHttp\Client;
+use Magento\Framework\Exception\LocalizedException;
 
 class DeeplAdapter implements TranslatorAdapterInterface
 {
@@ -45,7 +46,7 @@ class DeeplAdapter implements TranslatorAdapterInterface
         }
 
         // Get API parameters using the builder
-        $parameters = $this->apiParametersBuilder->buildParameters($storeId);
+        $parameters = $this->apiParametersBuilder->buildParametersByStoreId($storeId);
 
         // Add the text to translate and auth key
         $parameters['auth_key'] = $apiKey;
@@ -115,5 +116,38 @@ class DeeplAdapter implements TranslatorAdapterInterface
 
         // Return mapped language or uppercase the language code
         return $localeMap[$language] ?? strtoupper($language);
+    }
+
+    public function translateToLanguage(string $text, string $targetLang): string
+    {
+        $apiKey = $this->configProvider->getDeeplApiKey();
+        if (empty($apiKey)) {
+            throw new Exception('Missing DeepL API key');
+        }
+
+        $apiDomain = $this->configProvider->getDeeplApiDomain();
+        if (empty($apiDomain)) {
+            throw new Exception('Missing DeepL API domain configuration');
+        }
+
+        // Get API parameters using the builder
+        $parameters = $this->apiParametersBuilder->buildParametersByTargetLanguage($targetLang);
+
+        // Add the text to translate and auth key
+        $parameters['auth_key'] = $apiKey;
+        $parameters['text'] = $text;
+        $parameters['target_lang'] = $targetLang;
+
+        try {
+            $response = $this->guzzleClient->post("https://{$apiDomain}/v2/translate", [
+                'form_params' => $parameters,
+                'timeout' => $this->configProvider->getDeeplRequestTimeout(),
+            ]);
+
+            $responseBody = json_decode($response->getBody()->getContents(), true);
+            return $responseBody['translations'][0]['text'] ?? '';
+        } catch (GuzzleException $e) {
+            throw new \RuntimeException('DeepL API error: ' . $e->getMessage(), 0, $e);
+        }
     }
 }
