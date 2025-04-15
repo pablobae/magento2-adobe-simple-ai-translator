@@ -3,73 +3,71 @@ declare(strict_types=1);
 
 namespace Pablobae\SimpleAiTranslator\Controller\Adminhtml\Translate;
 
-use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
-use Pablobae\SimpleAiTranslator\Service\Translator;
+use Magento\Framework\Data\Form\FormKey\Validator;
+use Magento\Framework\Exception\LocalizedException;
 use Psr\Log\LoggerInterface;
+use Pablobae\SimpleAiTranslator\Service\Translator;
 
-class Index extends Action
+class Index extends Action implements HttpPostActionInterface
 {
-    /**
-     * Authorization level of a basic admin session
-     */
     const ADMIN_RESOURCE = 'Pablobae_SimpleAiTranslator::translate';
 
-
-    /**
-     * Constructor
-     *
-     * @param Context $context
-     * @param JsonFactory $resultJsonFactory
-     * @param Translator $translatorService
-     * @param LoggerInterface $logger
-     */
     public function __construct(
-        private Context         $context,
-        private JsonFactory     $resultJsonFactory,
-        private Translator      $translatorService,
+        Context $context,
+        private Validator $formKeyValidator,
+        private JsonFactory $resultJsonFactory,
+        private Translator $translator,
         private LoggerInterface $logger
-    )
-    {
+    ) {
         parent::__construct($context);
-
     }
 
-    /**
-     * Execute method for handling translation requests
-     *
-     * @return Json
-     */
-    public function execute()
+    public function execute(): Json
     {
-        /** @var Json */
-        $result = $this->resultJsonFactory->create();
-
+        $resultJson = $this->resultJsonFactory->create();
         try {
-            $fieldValue = trim($this->getRequest()->getParam('text'));
-            $storeId = trim($this->getRequest()->getParam('storeId'));
-
-            if (!$fieldValue || $storeId === null) {
-                return $result->setHttpResponseCode(400)->setData([
-                    'success' => false,
-                    'message' => __('Invalid input data.')
-                ]);
+            if (!$this->formKeyValidator->validate($this->getRequest())) {
+                throw new LocalizedException(__('Invalid form key. Please refresh the page.'));
             }
 
-            $translatedValue = $this->translatorService->translate($fieldValue, $storeId);
+            $params = $this->getRequest()->getParams();
+            $text = trim($params['text'] ?? '');
+            $storeId = (int)($params['storeId'] ?? -1);
 
-            return $result->setData([
-                'success' => true,
-                'translatedValue' => $translatedValue
+            $this->logger->info('Translation request:', ['text' => $text, 'storeId' => $storeId]);
+
+            if (empty($text)) {
+                throw new LocalizedException(__('Text parameter is required.'));
+            }
+
+            if ($storeId < 0) {
+                throw new LocalizedException(__('Valid Store ID parameter is required.'));
+            }
+
+            $translatedText = $this->translator->translate($text, (string) $storeId);
+            $this->logger->info('Translation successful', ['result' => $translatedText]);
+            
+            return $resultJson->setData(['success' => true, 'translation' => $translatedText]);
+        } catch (LocalizedException $e) {
+            $this->logger->error('Translation validation error: ' . $e->getMessage(), [
+                'text' => $text ?? '',
+                'storeId' => $storeId ?? '',
             ]);
-        } catch (Exception $e) {
-            $this->logger->error('Translation Error: ' . $e->getMessage());
-            return $result->setHttpResponseCode(500)->setData([
-                'success' => false,
-                'message' => __('An error occurred during translation. ') . $e->getMessage()
+            return $resultJson->setData(['success' => false, 'message' => $e->getMessage()]);
+        } catch (\Exception $e) {
+            $this->logger->error('Translation error: ' . $e->getMessage(), [
+                'text' => $text ?? '',
+                'storeId' => $storeId ?? '',
+                'trace' => $e->getTraceAsString()
+            ]);
+            return $resultJson->setData([
+                'success' => false, 
+                'message' => __('An error occurred while processing your request. Please try again.')
             ]);
         }
     }

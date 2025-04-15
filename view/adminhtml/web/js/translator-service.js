@@ -15,12 +15,19 @@ define(['jquery'], function ($) {
                 $(element).addClass('loading');
             }
 
+            const formKey = $('input[name="form_key"]').val();
+
             $.ajax({
                 url: '/admin/simpletranslator/translate',
                 type: 'POST',
+                dataType: 'json',
                 data: {
                     text: text,
-                    storeId: storeId
+                    storeId: storeId,
+                    form_key: formKey
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
                 success: function (response) {
                     // Remove loading class
@@ -29,7 +36,7 @@ define(['jquery'], function ($) {
                     }
 
                     if (response.success && typeof callback === 'function') {
-                        callback('success', response.translatedValue);
+                        callback('success', response.translation);
                     } else {
                         console.error('Translation failed: ' + response.message);
                         callback('error', 'Translation failed: ' + response.message);
