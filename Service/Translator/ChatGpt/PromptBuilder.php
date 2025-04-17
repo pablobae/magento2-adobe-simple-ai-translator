@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Pablobae\SimpleAiTranslator\Service\ChatGpt;
+namespace Pablobae\SimpleAiTranslator\Service\Translator\ChatGpt;
 
 class PromptBuilder
 {

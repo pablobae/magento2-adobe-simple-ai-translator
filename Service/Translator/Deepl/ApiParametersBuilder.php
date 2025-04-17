@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Pablobae\SimpleAiTranslator\Service\Deepl;
+namespace Pablobae\SimpleAiTranslator\Service\Translator\Deepl;
 
 use Pablobae\SimpleAiTranslator\Service\ConfigProvider;
 

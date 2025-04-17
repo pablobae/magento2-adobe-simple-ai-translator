@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Pablobae\SimpleAiTranslator\Service\ChatGpt;
+namespace Pablobae\SimpleAiTranslator\Service\Translator\ChatGpt;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -74,4 +74,4 @@ class ApiClient
         $this->logger->error('ChatGPT API Error: ' . json_encode($result));
         throw new LocalizedException(__($errorMessage));
     }
-} 
+}

@@ -1,30 +1,26 @@
 <?php
 declare(strict_types=1);
 
-namespace Pablobae\SimpleAiTranslator\Test\Unit\Service\ChatGpt;
+namespace Pablobae\SimpleAiTranslator\Test\Unit\Service\Translator;
 
-use Exception;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Magento\Framework\Exception\LocalizedException;
+use Pablobae\SimpleAiTranslator\Service\ConfigProvider;
+use Pablobae\SimpleAiTranslator\Service\Translator\ChatGpt\ApiClient;
+use Pablobae\SimpleAiTranslator\Service\Translator\ChatGpt\PromptBuilder;
+use Pablobae\SimpleAiTranslator\Service\Translator\ChatGptTranslator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Pablobae\SimpleAiTranslator\Service\ChatGpt\ChatGptAdapter;
-use Pablobae\SimpleAiTranslator\Service\ConfigProvider;
-use Pablobae\SimpleAiTranslator\Service\ChatGpt\ApiClient;
-use Pablobae\SimpleAiTranslator\Service\ChatGpt\PromptBuilder;
 use Psr\Log\LoggerInterface;
 
-class ChatGptAdapterTest extends TestCase
+class ChatGptTranslatorTest extends TestCase
 {
     /**
-     * @var ChatGptAdapter
+     * @var ChatGptTranslator
      */
-    private ChatGptAdapter $adapter;
+    private ChatGptTranslator $adapter;
 
     /**
      * @var ConfigProvider|MockObject
@@ -64,7 +60,7 @@ class ChatGptAdapterTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->adapter = new ChatGptAdapter(
+        $this->adapter = new ChatGptTranslator(
             $this->configProvider,
             $this->apiClient,
             $this->promptBuilder,

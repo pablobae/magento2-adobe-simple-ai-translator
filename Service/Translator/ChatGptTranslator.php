@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Pablobae\SimpleAiTranslator\Service\ChatGpt;
+namespace Pablobae\SimpleAiTranslator\Service\Translator;
 
+use Pablobae\SimpleAiTranslator\Service\Translator\ChatGpt\ApiClient;
+use Pablobae\SimpleAiTranslator\Service\Translator\ChatGpt\PromptBuilder;
 use GuzzleHttp\Exception\GuzzleException;
 use Magento\Framework\Exception\LocalizedException;
 use Pablobae\SimpleAiTranslator\Api\TranslatorAdapterInterface;
-use Pablobae\SimpleAiTranslator\Service\ChatGpt\ApiClient;
-use Pablobae\SimpleAiTranslator\Service\ChatGpt\PromptBuilder;
 use Pablobae\SimpleAiTranslator\Service\ConfigProvider;
 use Psr\Log\LoggerInterface;
 
-class ChatGptAdapter implements TranslatorAdapterInterface
+class ChatGptTranslator implements TranslatorAdapterInterface
 {
     public function __construct(
         private readonly ConfigProvider $configProvider,

@@ -23,8 +23,8 @@
     <type name="Pablobae\SimpleAiTranslator\Service\Translator">
         <arguments>
             <argument name="translatorAdapters" xsi:type="array">
-                <item name="deepl" xsi:type="object">Pablobae\SimpleAiTranslator\Model\TranslatorAdapter\DeeplAdapter</item>
-                <item name="chatgpt" xsi:type="object">Pablobae\SimpleAiTranslator\Model\TranslatorAdapter\ChatGptAdapter</item>
+                <item name="deepl" xsi:type="object">Pablobae\SimpleAiTranslator\Service\Translator\DeeplTranslator</item>
+                <item name="chatgpt" xsi:type="object">Pablobae\SimpleAiTranslator\Service\Translator\ChatGptTranslator</item>
             </argument>
         </arguments>
     </type>
