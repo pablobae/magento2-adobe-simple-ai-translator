@@ -1,12 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Pablobae\SimpleAiTranslator\Model\TranslatorAdapter;
+namespace Pablobae\SimpleAiTranslator\Service\Deepl;
 
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Pablobae\SimpleAiTranslator\Service\ConfigProvider;
-use Pablobae\SimpleAiTranslator\Service\Deepl\ApiParametersBuilder;
 use Pablobae\SimpleAiTranslator\Api\TranslatorAdapterInterface;
 use GuzzleHttp\Client;
 use Magento\Framework\Exception\LocalizedException;

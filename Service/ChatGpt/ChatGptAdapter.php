@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Pablobae\SimpleAiTranslator\Model\TranslatorAdapter;
+namespace Pablobae\SimpleAiTranslator\Service\ChatGpt;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Magento\Framework\Exception\LocalizedException;
@@ -43,7 +43,6 @@ class ChatGptAdapter implements TranslatorAdapterInterface
             throw new LocalizedException(__('Failed to get translation from ChatGPT API.'), $e);
         }
     }
-
 
     /**
      * @inheritDoc
