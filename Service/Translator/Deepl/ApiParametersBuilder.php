@@ -3,23 +3,83 @@ declare(strict_types=1);
 
 namespace Pablobae\SimpleAiTranslator\Service\Translator\Deepl;
 
+use Exception;
 use Pablobae\SimpleAiTranslator\Service\ConfigProvider;
 
 class ApiParametersBuilder
 {
-    /**
-     * @var ConfigProvider
-     */
-    private $configProvider;
 
     /**
      * Constructor
      *
      * @param ConfigProvider $configProvider
      */
-    public function __construct(ConfigProvider $configProvider)
+    public function __construct(
+        private ConfigProvider $configProvider)
     {
-        $this->configProvider = $configProvider;
+    }
+
+    /**
+     * Build parameters with custom source and target languages
+     *
+     * @param string $sourceLanguage
+     * @param string $targetLanguage
+     * @param null|int|string $storeId
+     * @return array
+     */
+    public function buildParametersByTargetLanguage(string $targetLanguage): array
+    {
+        $params = [];
+
+        // Add target language (required)
+        $params['target_lang'] = $targetLanguage;
+
+        // Add source language if specified
+        $sourceLanguage = $this->configProvider->getDeeplDefaultSourceLang();
+        if (!empty($sourceLanguage)) {
+            $params['source_lang'] = $sourceLanguage;
+        }
+
+        // Add model type if specified
+        $modelType = $this->configProvider->getDeeplModelType();
+        if (!empty($modelType)) {
+            $params['model'] = $modelType;
+        }
+
+        // Add split sentences setting
+        $splitSentences = $this->configProvider->getDeeplSplitSentences();
+        if (!empty($splitSentences)) {
+            $params['split_sentences'] = $splitSentences;
+        }
+
+        // Add preserve formatting if enabled
+        if ($this->configProvider->isDeeplPreserveFormattingEnabled()) {
+            $params['preserve_formatting'] = 1;
+        }
+
+        // Add formality if specified
+        $formality = $this->configProvider->getDeeplFormality();
+        if (!empty($formality) && $formality !== 'default') {
+            $params['formality'] = $formality;
+        }
+
+        // Add tag handling if specified
+        $tagHandling = $this->configProvider->getDeeplTagHandling();
+        if (!empty($tagHandling)) {
+            $params['tag_handling'] = $tagHandling;
+
+            // Add XML-specific parameters if tag handling is XML
+            if ($tagHandling === 'xml') {
+                $this->addXmlParameters($params);
+            }
+        }
+
+        // Add show billed characters if enabled
+        if ($this->configProvider->isDeeplShowBilledCharactersEnabled()) {
+            $params['show_billed_characters'] = 1;
+        }
+
+        return $params;
     }
 
     /**
@@ -27,10 +87,17 @@ class ApiParametersBuilder
      *
      * @param string|null $storeId
      * @return array
+     * @throws Exception
      */
     public function buildParametersByStoreId(?string $storeId = null): array
     {
         $params = [];
+
+        $apiKey = $this->configProvider->getDeeplApiKey($storeId);
+        if (empty($apiKey)) {
+            throw new Exception('Missing DeepL API key');
+        }
+        $params['auth_key'] = $apiKey;
 
         // Add source language if specified
         $sourceLanguage = $this->configProvider->getDeeplDefaultSourceLang($storeId);
@@ -86,8 +153,6 @@ class ApiParametersBuilder
         return $params;
     }
 
-
-
     /**
      * Add XML-specific parameters
      *
@@ -119,68 +184,5 @@ class ApiParametersBuilder
         if (!empty($ignoreTags)) {
             $params['ignore_tags'] = $ignoreTags;
         }
-    }
-
-    /**
-     * Build parameters with custom source and target languages
-     *
-     * @param string $sourceLanguage
-     * @param string $targetLanguage
-     * @param null|int|string $storeId
-     * @return array
-     */
-    public function buildParametersByTargetLanguage(string $targetLanguage): array
-    {
-        $params = [];
-        // Add target language (required)
-        $params['target_lang'] = $targetLanguage;
-
-        // Add source language if specified
-        $sourceLanguage = $this->configProvider->getDeeplDefaultSourceLang();
-        if (!empty($sourceLanguage)) {
-            $params['source_lang'] = $sourceLanguage;
-        }
-
-
-        // Add model type if specified
-        $modelType = $this->configProvider->getDeeplModelType();
-        if (!empty($modelType)) {
-            $params['model'] = $modelType;
-        }
-
-        // Add split sentences setting
-        $splitSentences = $this->configProvider->getDeeplSplitSentences();
-        if (!empty($splitSentences)) {
-            $params['split_sentences'] = $splitSentences;
-        }
-
-        // Add preserve formatting if enabled
-        if ($this->configProvider->isDeeplPreserveFormattingEnabled()) {
-            $params['preserve_formatting'] = 1;
-        }
-
-        // Add formality if specified
-        $formality = $this->configProvider->getDeeplFormality();
-        if (!empty($formality) && $formality !== 'default') {
-            $params['formality'] = $formality;
-        }
-
-        // Add tag handling if specified
-        $tagHandling = $this->configProvider->getDeeplTagHandling();
-        if (!empty($tagHandling)) {
-            $params['tag_handling'] = $tagHandling;
-
-            // Add XML-specific parameters if tag handling is XML
-            if ($tagHandling === 'xml') {
-                $this->addXmlParameters($params);
-            }
-        }
-
-        // Add show billed characters if enabled
-        if ($this->configProvider->isDeeplShowBilledCharactersEnabled()) {
-            $params['show_billed_characters'] = 1;
-        }
-
-        return $params;
     }
 }
