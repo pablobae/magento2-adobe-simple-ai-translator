@@ -1,19 +1,16 @@
 # Simple AI Translator for Magento 2
 
-SimpleAiTranslator is a Magento 2 extension that provides automated translation capabilities using AI-powered translation services. Currently supports DeepL and ChatGPT translation APIs.
+SimpleAiTranslator is a Magento 2 extension that provides intelligent translation services by integrating with AI-powered APIs, including ChatGPT and DeepL, to offer easy and efficient multilingual content management.
 
 ## Features
 
-- Multiple AI Translation Engines:
-  - DeepL API (Free and Pro versions)
-  - ChatGPT (OpenAI)
-- Store-specific configurations
-- Automatic language detection
-- Configurable translation parameters:
-  - DeepL: formality, sentence splitting, tag handling
-  - ChatGPT: model selection, temperature control
-- Error handling and logging
-- Command-line interface for translations
+- **ChatGPT Integration**: Translate text using OpenAI's powerful ChatGPT API.
+- **DeepL Integration**: Utilize DeepL for high-quality translation.
+- **Admin Configuration**: Fully configurable via Magento Admin (`Stores > Configuration`).
+- **Unit Tests**: Ensures reliable performance and quality.
+- **Error handling and logging**
+- **Command-line** interface for translations
+- **Unit Tests**: Ensures reliable performance and quality.
 
 ## Requirements
 
@@ -154,18 +151,33 @@ The extension includes comprehensive error handling for:
 - Invalid language codes
 - Malformed responses
 
+## Testing
+
+Unit tests are provided to verify the core functionalities of the API clients (ChatGPT and DeepL). To run the tests:
+
+1. From the Magento root directory, execute:
+   ```bash
+   vendor/bin/phpunit -c dev/tests/unit/phpunit.xml
+   ```
+
+Make sure you have PHPUnit installed and configured for Magento.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Support
 
-For issues and feature requests, please [create an issue](https://github.com/pablobae/magento2-simple-ai-translator/issues)
+For issues and feature requests, please [create an issue](https://github.com/pablobae/magento2-simple-ai-translator/issues).
+
+Alternatively, you can also join my [Slack channel](https://join.slack.com/t/aradaen/shared_invite/zt-182u0exau-Kt9YRcDG8QqRZbOyskFXaQ)
 
 ## License
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-[MIT License](LICENSE.md)
+This project is licensed under the GNU General Public License v3.0 or later. See the [LICENSE](./LICENSE) file for details.
+
 
 ## Credits
 
-Developed by Pablo César Baenas Castelló
+Developed by Pablo César Baenas Castelló - 

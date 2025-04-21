@@ -1,20 +1,50 @@
 {
-  "name": "pablobae/module-simple-ai-translator",
-  "version": "1.0.0",
-  "description": "N/A",
-  "type": "magento2-module",
-  "require": {
-    "magento/framework": "*"
-  },
-  "license": [
-    "Proprietary"
-  ],
-  "autoload": {
-    "files": [
-      "registration.php"
+    "name": "pablobae/module-simple-ai-translator",
+    "description": "AI-powered translation module for Magento 2, enabling seamless integration with services like DeepL and ChatGPT for automated language translation. Provides configurable translation settings, language pairs, and model types for enhanced localization and multi-language store capabilities.",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "require": {
+        "php": ">=8.1",
+        "magento/framework": "^103.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "license": [
+        "GPL-3.0-or-later"
     ],
-    "psr-4": {
-      "Pablobae\\SimpleAiTranslator\\": ""
-    }
-  }
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Pablobae\\SimpleAiTranslator\\": ""
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Pablo César Baenas Castelló",
+            "email": "soporte@pablobaenas.com",
+            "homepage": "https://www.pablobaenas.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/pablobae/magento2-adobe-simple-ai-translator/issues",
+        "source": "https://github.com/pablobae/magento2-adobe-simple-ai-translator",
+        "slack" : "https://join.slack.com/t/aradaen/shared_invite/zt-182u0exau-Kt9YRcDG8QqRZbOyskFXaQ"
+    },
+    "keywords": [
+        "magento2",
+        "adobe commerce",
+        "ai",
+        "translator",
+        "deepl",
+        "chatgpt",
+        "localization",
+        "multi-language",
+        "ecommerce"
+    ],
+    "homepage": "https://github.com/pablobae/magento2-adobe-simple-ai-translator"
 }

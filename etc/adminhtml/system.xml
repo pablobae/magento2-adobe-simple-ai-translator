@@ -1,4 +1,22 @@
 <?xml version="1.0"?>
+<!--
+    SimpleAiTranslator
+    Copyright (C) 2025 - Pablo César Baenas Castelló - https://www.pablobaenas.com
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
+-->
+
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <tab id="pablobae" translate="label" sortOrder="100">
@@ -12,6 +30,10 @@
             <!-- Define a group for General settings -->
             <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General</label>
+                <field id="support" translate="label" type="link" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Support</label>
+                    <comment><![CDATA[For support use <a href="https://join.slack.com/t/aradaen/shared_invite/zt-182u0exau-Kt9YRcDG8QqRZbOyskFXaQ" target="_blank">Slack</a>, <a href="https://github.com/pablobae/magento2-adobe-simple-ai-translator" target="_blank">GitHub</a> or, <a href="https://www.pablobaenas.com" target="_blank">www.pablobaenas.com</a>]]></comment>
+                </field>
 
                 <!-- Enable/Disable field -->
                 <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -156,7 +178,7 @@
             <!-- ChatGPT -->
             <group id="chatgpt" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>ChatGPT</label>
-                
+
                 <!-- API Key Field -->
                 <field id="api_key" translate="label comment" type="obscure" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>API Key</label>
