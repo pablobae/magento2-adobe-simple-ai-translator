@@ -26,33 +26,35 @@ class ApiClient
      * @param array $messages
      * @return array
      * @throws LocalizedException
-     * @throws GuzzleException
      */
     public function sendRequest(array $messages): array
     {
-        $response = $this->httpClient->post(
-            self::API_ENDPOINT,
-            [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->configProvider->getChatGptApiKey(),
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => [
-                    'model' => $this->configProvider->getChatGptModel(),
-                    'messages' => $messages,
-                    'temperature' => $this->configProvider->getChatGptTemperature(),
-                ],
-                'timeout' => $this->configProvider->getChatGptRequestTimeout()
-            ]
-        );
+        try {
+            $response = $this->httpClient->post(
+                self::API_ENDPOINT,
+                [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $this->configProvider->getChatGptApiKey(),
+                        'Content-Type' => 'application/json',
+                    ],
+                    'json' => [
+                        'model' => $this->configProvider->getChatGptModel(),
+                        'messages' => $messages,
+                        'temperature' => $this->configProvider->getChatGptTemperature(),
+                    ],
+                    'timeout' => $this->configProvider->getChatGptRequestTimeout()
+                ]
+            );
+            $result = json_decode($response->getBody()->getContents(), true);
 
-        $result = json_decode($response->getBody()->getContents(), true);
+            if (!isset($result['choices'][0]['message']['content'])) {
+                $this->handleApiError($result);
+            }
 
-        if (!isset($result['choices'][0]['message']['content'])) {
-            $this->handleApiError($result);
+            return $result;
+        } catch (GuzzleException $e) {
+            $this->handleGuzzleException($e);
         }
-
-        return $result;
     }
 
     /**
@@ -69,9 +71,38 @@ class ApiClient
     private function handleApiError(array $result): never
     {
         $error = $result['error'] ?? null;
-        $errorMessage= $error['message'] ?? __('Unknown error occurred while calling ChatGPT API.');
+        $errorMessage = $error['message'] ?? __('Unknown error occurred while calling ChatGPT API.');
 
         $this->logger->error('ChatGPT API Error: ' . json_encode($result));
         throw new LocalizedException(__($errorMessage));
+    }
+
+    /**
+     * Handle Guzzle exceptions
+     *
+     * @param GuzzleException $e
+     * @return never
+     * @throws LocalizedException
+     */
+    private function handleGuzzleException(GuzzleException $e): never
+    {
+        $this->logger->error('ChatGPT API Error: ' . $e->getMessage());
+
+        $errorMessage = 'ChatGPT API Error. Failed to get response from ChatGPT API.';
+
+        // Extract error message from response if available
+        if ($e instanceof RequestException && $e->hasResponse()) {
+            try {
+                $responseBody = json_decode($e->getResponse()->getBody()->getContents(), true);
+                if (isset($responseBody['error']['message'])) {
+                    $errorMessage .= ': '.$responseBody['error']['message'];
+                }
+            } catch (\Exception $jsonException) {
+                // If we can't parse the response, use the default message
+                $this->logger->error('Failed to parse error response: ' . $jsonException->getMessage());
+            }
+        }
+
+        throw new LocalizedException(__($errorMessage), $e);
     }
 }

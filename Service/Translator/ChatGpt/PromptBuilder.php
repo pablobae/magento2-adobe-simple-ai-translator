@@ -15,13 +15,13 @@ class PromptBuilder
      */
     public function buildTranslationPrompt(string $text, string $targetLang, string $sourceLang = null): array
     {
-        $systemPrompt = 'You are a professional translator. Translate the text exactly as provided, maintaining any HTML or XML tags if present. Only return the translated text without any explanations or additional content.';
+        $systemPrompt = 'You are a professional translator. Translate the text exactly as provided, maintaining any HTML or XML tags if present. Only return the translated text without any explanations or additional content. The text to be translated should be added between /// and ///. Do not include the /// in the translation.';
 
         $userPrompt = "Translate the following text to $targetLang";
         if ($sourceLang) {
             $userPrompt .= " from $sourceLang";
         }
-        $userPrompt .= ":\n\n$text";
+        $userPrompt .= ": ///$text///";
 
         return [
             [
