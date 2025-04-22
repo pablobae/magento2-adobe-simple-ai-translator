@@ -2,6 +2,8 @@
 
 SimpleAiTranslator is a Magento 2 extension that provides intelligent translation services by integrating with AI-powered APIs, including ChatGPT and DeepL, to offer easy and efficient multilingual content management.
 
+![alt Simple AI extension for Adobe/Magento 2](https://raw.githubusercontent.com/pablobae/markdown-images/master/magento2-adobe-simple-ai-translator/magento2-adobe-simple-ai-translator.gif?raw=true "Simple AI extension for Adobe/Magento 2")
+
 ## Features
 
 - **ChatGPT Integration**: Translate text using OpenAI's powerful ChatGPT API.
