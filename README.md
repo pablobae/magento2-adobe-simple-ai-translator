@@ -182,4 +182,4 @@ This project is licensed under the GNU General Public License v3.0 or later. See
 
 ## Credits
 
-Developed by Pablo César Baenas Castelló - 
+Developed by Pablo César Baenas Castelló (while testing AI agents) - [www.pablobaenas.com](https://www.pablobaenas.com)
