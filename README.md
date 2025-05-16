@@ -1,9 +1,13 @@
 # Simple AI Translator for Magento 2
 
+---
 SimpleAiTranslator is a Magento 2 extension that provides intelligent translation services by integrating with AI-powered APIs, including ChatGPT and DeepL, to offer easy and efficient multilingual content management.
+
+![Supported Magento version](https://badgen.net/badge/magento/2.4.4-2.4.7+) [![Latest Stable Version](http://poser.pugx.org/pablobae/module-simple-ai-translator/v)](https://packagist.org/packages/pablobae/module-simple-ai-translator) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/pablobae/magento2-adobe-simple-ai-translator) [![License](http://poser.pugx.org/pablobae/module-simple-ai-translator/license)](https://packagist.org/packages/pablobae/module-simple-ai-translator) [![PHP Version Require](http://poser.pugx.org/pablobae/module-simple-ai-translator/require/php)](https://packagist.org/packages/pablobae/module-simple-ai-translator)
 
 ![alt Simple AI extension for Adobe/Magento 2](https://raw.githubusercontent.com/pablobae/markdown-images/master/magento2-adobe-simple-ai-translator/magento2-adobe-simple-ai-translator.gif?raw=true "Simple AI extension for Adobe/Magento 2")
 
+---
 ## Features
 
 - **ChatGPT Integration**: Translate text using OpenAI's powerful ChatGPT API.
@@ -130,7 +134,7 @@ class YourClass {
 - Russian
 - Japanese
 - Chinese
-And more...
+  And more...
 
 ### ChatGPT Languages
 ChatGPT supports a broader range of languages including:
@@ -140,7 +144,7 @@ ChatGPT supports a broader range of languages including:
 - Hindi
 - African languages
 - Indigenous languages
-And many more, as ChatGPT can understand and generate content in most world languages.
+  And many more, as ChatGPT can understand and generate content in most world languages.
 
 Note: While ChatGPT supports more languages, DeepL typically provides more accurate translations for its supported language pairs.
 
@@ -182,4 +186,5 @@ This project is licensed under the GNU General Public License v3.0 or later. See
 
 ## Credits
 
-Developed by Pablo César Baenas Castelló (while testing AI agents) - [www.pablobaenas.com](https://www.pablobaenas.com)
+Developed by Pablo César Baenas Castelló (while testing AI agents) <br/>
+[www.pablobaenas.com](https://www.pablobaenas.com) | [www.aradaen.com](https://www.aradaen.com)
