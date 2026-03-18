@@ -24,6 +24,7 @@ namespace Pablobae\SimpleAiTranslator\Service\Translator\ChatGpt;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 use Magento\Framework\Exception\LocalizedException;
 use Pablobae\SimpleAiTranslator\Service\ConfigProvider;
 use Psr\Log\LoggerInterface;
