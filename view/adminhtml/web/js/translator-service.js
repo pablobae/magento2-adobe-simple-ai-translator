@@ -34,14 +34,17 @@ define(['jquery'], function ($) {
 
             const formKey = $('input[name="form_key"]').val();
 
+            var adminBase = window.location.origin + '/' + window.location.pathname.split('/')[1] + '/';
+
             $.ajax({
-                url: (window.BASE_URL || '/') + 'simpletranslator/translate',
+                url: adminBase + 'simpletranslator/translate',
                 type: 'POST',
                 dataType: 'json',
                 data: {
                     text: text,
                     storeId: storeId,
-                    form_key: formKey
+                    form_key: formKey,
+                    isAjax: true
                 },
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
