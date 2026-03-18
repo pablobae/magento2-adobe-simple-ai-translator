@@ -35,7 +35,7 @@ define(['jquery'], function ($) {
             const formKey = $('input[name="form_key"]').val();
 
             $.ajax({
-                url: '/admin/simpletranslator/translate',
+                url: (window.BASE_URL || '/') + 'simpletranslator/translate',
                 type: 'POST',
                 dataType: 'json',
                 data: {
