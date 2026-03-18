@@ -116,8 +116,6 @@ class ApiParametersBuilder
         if (empty($apiKey)) {
             throw new Exception('Missing DeepL API key');
         }
-        $params['auth_key'] = $apiKey;
-
         // Add source language if specified
         $sourceLanguage = $this->configProvider->getDeeplDefaultSourceLang($storeId);
         if (!empty($sourceLanguage)) {

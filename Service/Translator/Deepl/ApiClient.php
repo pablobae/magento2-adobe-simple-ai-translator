@@ -90,7 +90,12 @@ class ApiClient
 
         $url = "https://{$apiDomain}/{$endpointBase}";
 
+        $apiKey = $this->configProvider->getDeeplApiKey($storeId);
+
         $response = $this->guzzleClient->post($url, [
+            'headers' => [
+                'Authorization' => 'DeepL-Auth-Key ' . $apiKey,
+            ],
             'form_params' => $parameters,
             'timeout' => $this->configProvider->getDeeplRequestTimeout($storeId),
         ]);
