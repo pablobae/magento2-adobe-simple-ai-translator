@@ -23,9 +23,15 @@ declare(strict_types=1);
 namespace Pablobae\SimpleAiTranslator\Plugin;
 
 use Magento\Catalog\Ui\DataProvider\Product\Form\ProductDataProvider;
+use Pablobae\SimpleAiTranslator\Service\ConfigProvider;
 
 class TranslatableProductDataProvider
 {
+    public function __construct(
+        private readonly ConfigProvider $configProvider
+    ) {
+    }
+
     /**
      * @param ProductDataProvider $subject
      * @param array $result
@@ -33,6 +39,10 @@ class TranslatableProductDataProvider
      */
     public function afterGetMeta(ProductDataProvider $subject, array $result): array
     {
+        if (!$this->configProvider->isModuleEnabled()) {
+            return $result;
+        }
+
         foreach ($result as $groupCode => $groupData) {
             if (!array_key_exists('children', $groupData)) {
                 continue;
