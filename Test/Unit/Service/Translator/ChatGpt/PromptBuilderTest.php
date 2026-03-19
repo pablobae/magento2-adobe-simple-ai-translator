@@ -23,15 +23,23 @@ declare(strict_types=1);
 
 namespace Pablobae\SimpleAiTranslator\Test\Unit\Service\Translator\ChatGpt;
 
+use Pablobae\SimpleAiTranslator\Service\ConfigProvider;
 use Pablobae\SimpleAiTranslator\Service\Translator\ChatGpt\PromptBuilder;
 use PHPUnit\Framework\TestCase;
 
 class PromptBuilderTest extends TestCase
 {
+    private const SYSTEM_PROMPT = 'You are a professional translator. Translate the text exactly as provided, maintaining any HTML or XML tags if present. Only return the translated text without any explanations or additional content. The text to be translated should be added between /// and ///. Do not include the /// in the translation.';
+
     /**
      * @var PromptBuilder
      */
     private $promptBuilder;
+
+    /**
+     * @var ConfigProvider|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $configProvider;
 
     /**
      * Set up test environment
@@ -40,8 +48,12 @@ class PromptBuilderTest extends TestCase
      */
     protected function setUp(): void
     {
-        // Direct instantiation without ObjectManager
-        $this->promptBuilder = new PromptBuilder();
+        $this->configProvider = $this->getMockBuilder(ConfigProvider::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->configProvider->method('getChatGptSystemPrompt')->willReturn(self::SYSTEM_PROMPT);
+
+        $this->promptBuilder = new PromptBuilder($this->configProvider);
     }
 
     /**
@@ -81,7 +93,7 @@ class PromptBuilderTest extends TestCase
                 'expectedPrompt' => [
                     [
                         'role' => 'system',
-                        'content' => 'You are a professional translator. Translate the text exactly as provided, maintaining any HTML or XML tags if present. Only return the translated text without any explanations or additional content. The text to be translated should be added between /// and ///. Do not include the /// in the translation.'
+                        'content' => self::SYSTEM_PROMPT
                     ],
                     [
                         'role' => 'user',
@@ -96,7 +108,7 @@ class PromptBuilderTest extends TestCase
                 'expectedPrompt' => [
                     [
                         'role' => 'system',
-                        'content' => 'You are a professional translator. Translate the text exactly as provided, maintaining any HTML or XML tags if present. Only return the translated text without any explanations or additional content. The text to be translated should be added between /// and ///. Do not include the /// in the translation.'
+                        'content' => self::SYSTEM_PROMPT
                     ],
                     [
                         'role' => 'user',
@@ -111,7 +123,7 @@ class PromptBuilderTest extends TestCase
                 'expectedPrompt' => [
                     [
                         'role' => 'system',
-                        'content' => 'You are a professional translator. Translate the text exactly as provided, maintaining any HTML or XML tags if present. Only return the translated text without any explanations or additional content. The text to be translated should be added between /// and ///. Do not include the /// in the translation.'
+                        'content' => self::SYSTEM_PROMPT
                     ],
                     [
                         'role' => 'user',
@@ -126,7 +138,7 @@ class PromptBuilderTest extends TestCase
                 'expectedPrompt' => [
                     [
                         'role' => 'system',
-                        'content' => 'You are a professional translator. Translate the text exactly as provided, maintaining any HTML or XML tags if present. Only return the translated text without any explanations or additional content. The text to be translated should be added between /// and ///. Do not include the /// in the translation.'
+                        'content' => self::SYSTEM_PROMPT
                     ],
                     [
                         'role' => 'user',
@@ -141,7 +153,7 @@ class PromptBuilderTest extends TestCase
                 'expectedPrompt' => [
                     [
                         'role' => 'system',
-                        'content' => 'You are a professional translator. Translate the text exactly as provided, maintaining any HTML or XML tags if present. Only return the translated text without any explanations or additional content. The text to be translated should be added between /// and ///. Do not include the /// in the translation.'
+                        'content' => self::SYSTEM_PROMPT
                     ],
                     [
                         'role' => 'user',
@@ -168,7 +180,7 @@ class PromptBuilderTest extends TestCase
 
             [
                 'role' => 'system',
-                'content' => 'You are a professional translator. Translate the text exactly as provided, maintaining any HTML or XML tags if present. Only return the translated text without any explanations or additional content. The text to be translated should be added between /// and ///. Do not include the /// in the translation.'
+                'content' => self::SYSTEM_PROMPT
             ],
             [
                 'role' => 'user',
@@ -196,7 +208,7 @@ class PromptBuilderTest extends TestCase
         $expectedPrompt = [
             [
                 'role' => 'system',
-                'content' => 'You are a professional translator. Translate the text exactly as provided, maintaining any HTML or XML tags if present. Only return the translated text without any explanations or additional content. The text to be translated should be added between /// and ///. Do not include the /// in the translation.'
+                'content' => self::SYSTEM_PROMPT
             ],
             [
                 'role' => 'user',
@@ -224,7 +236,7 @@ class PromptBuilderTest extends TestCase
         $expectedPrompt = [
             [
                 'role' => 'system',
-                'content' => 'You are a professional translator. Translate the text exactly as provided, maintaining any HTML or XML tags if present. Only return the translated text without any explanations or additional content. The text to be translated should be added between /// and ///. Do not include the /// in the translation.'
+                'content' => self::SYSTEM_PROMPT
             ],
             [
                 'role' => 'user',

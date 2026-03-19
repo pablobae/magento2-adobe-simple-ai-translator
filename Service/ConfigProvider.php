@@ -61,6 +61,7 @@ class ConfigProvider
     const XML_PATH_CHATGPT_DEFAULT_SOURCE_LANG = 'pablobae_simpleaitranslator/chatgpt/default_source_lang';
     const XML_PATH_CHATGPT_DEFAULT_TARGET_LANG = 'pablobae_simpleaitranslator/chatgpt/default_target_lang';
     const XML_PATH_CHATGPT_REQUEST_TIMEOUT = 'pablobae_simpleaitranslator/chatgpt/request_timeout';
+    const XML_PATH_CHATGPT_SYSTEM_PROMPT = 'pablobae_simpleaitranslator/chatgpt/system_prompt';
 
 
 
@@ -381,5 +382,20 @@ class ConfigProvider
             ScopeInterface::SCOPE_STORE,
             $storeId
         ) ?: 30;
+    }
+
+    /**
+     * Get ChatGPT System Prompt
+     *
+     * @param string|null $storeId
+     * @return string
+     */
+    public function getChatGptSystemPrompt(?string $storeId = null): string
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_CHATGPT_SYSTEM_PROMPT,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 }
