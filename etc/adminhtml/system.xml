@@ -220,6 +220,12 @@
                     <validate>validate-number validate-greater-than-zero</validate>
                     <comment>Set the timeout for API requests in seconds.</comment>
                 </field>
+
+                <!-- System Prompt -->
+                <field id="system_prompt" translate="label comment" type="textarea" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>System Prompt</label>
+                    <comment>The system prompt sent to ChatGPT to instruct translation behavior.</comment>
+                </field>
             </group>
         </section>
     </system>

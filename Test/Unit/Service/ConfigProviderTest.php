@@ -460,4 +460,19 @@ class ConfigProviderTest extends TestCase
 
         $this->assertEquals($expectedValue, $result);
     }
+
+    public function testGetChatGptSystemPrompt(): void
+    {
+        $storeId = '1';
+        $expectedValue = 'You are a professional translator.';
+
+        $this->scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with(ConfigProvider::XML_PATH_CHATGPT_SYSTEM_PROMPT, ScopeInterface::SCOPE_STORE, $storeId)
+            ->willReturn($expectedValue);
+
+        $result = $this->configProvider->getChatGptSystemPrompt($storeId);
+
+        $this->assertEquals($expectedValue, $result);
+    }
 }
