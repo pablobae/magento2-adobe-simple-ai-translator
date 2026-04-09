@@ -100,7 +100,7 @@ The extension integrates with Magento's product management interface, allowing y
 
 Use the CLI command for batch translations:
 ```bash
-bin/magento pablobae:simpleaitranslator:translate --text 'text to be translated' --language 'es'
+bin/magento pablobae:translate --text 'text to be translated' --language 'es'
 ```
 
 ### Programmatic Usage
